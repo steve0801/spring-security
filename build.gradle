@@ -6,6 +6,7 @@ buildscript {
 		classpath "io.freefair.gradle:aspectj-plugin:4.0.2"
 	}
 	repositories {
+		mavenLocal()
 		maven { url 'https://repo.spring.io/plugins-snapshot' }
 		maven { url 'https://plugins.gradle.org/m2/' }
 	}
