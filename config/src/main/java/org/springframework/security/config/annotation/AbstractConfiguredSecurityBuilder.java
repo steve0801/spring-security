@@ -320,16 +320,21 @@ public abstract class AbstractConfiguredSecurityBuilder<O, B extends SecurityBui
 		synchronized (configurers) {
 			buildState = BuildState.INITIALIZING;
 
+			//  默认该函数为空
 			beforeInit();
+			//  初始化SecurityConfigurer
 			init();
 
 			buildState = BuildState.CONFIGURING;
 
+			// 默认该函数为空
 			beforeConfigure();
+			// 调用WebSecurityConfigurerAdapter中的configure(WebSecurity web)函数，默认为空
 			configure();
 
 			buildState = BuildState.BUILDING;
 
+			// 完成过滤器链的构建
 			O result = performBuild();
 
 			buildState = BuildState.BUILT;

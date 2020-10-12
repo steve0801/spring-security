@@ -95,12 +95,17 @@ public class WebSecurityConfiguration implements ImportAware, BeanClassLoaderAwa
 	public Filter springSecurityFilterChain() throws Exception {
 		boolean hasConfigurers = webSecurityConfigurers != null
 				&& !webSecurityConfigurers.isEmpty();
+
+		// 没有通过继承WebSecurityConfigurerAdatper类配置过Spring Security，
+		// 则会以WebSecurityConfigurerAdatper中的配置默认行为。
 		if (!hasConfigurers) {
 			WebSecurityConfigurerAdapter adapter = objectObjectPostProcessor
 					.postProcess(new WebSecurityConfigurerAdapter() {
 					});
 			webSecurity.apply(adapter);
 		}
+
+		// 调用WebSecurity类的build方法构建过滤器链。
 		return webSecurity.build();
 	}
 
@@ -126,21 +131,25 @@ public class WebSecurityConfiguration implements ImportAware, BeanClassLoaderAwa
 	 * create the web configuration
 	 * @throws Exception
 	 */
+    // objectPostProcess用于初始化对象，暂时不用关注。webSecurityConfigurers是通过SpEL调用Bean的方法获得的值，其获得的是我们在配置Spring Security时继承自WebSecurityConfigurerAdapter的配置类
 	@Autowired(required = false)
 	public void setFilterChainProxySecurityConfigurer(
 			ObjectPostProcessor<Object> objectPostProcessor,
 			@Value("#{@autowiredWebSecurityConfigurersIgnoreParents.getWebSecurityConfigurers()}") List<SecurityConfigurer<Filter, WebSecurity>> webSecurityConfigurers)
 			throws Exception {
+        // 初始化WebSecurity
 		webSecurity = objectPostProcessor
 				.postProcess(new WebSecurity(objectPostProcessor));
 		if (debugEnabled != null) {
 			webSecurity.debug(debugEnabled);
 		}
-
+        
+		// 对webSecurityConfigurers按升序进行排序（排序算法是稳定的），如果一个应用中有多个SecurityConfigurer，可通过@Order注解指定其顺序，注解中的值越大，SecurityConfigurer排序后越靠后。
 		webSecurityConfigurers.sort(AnnotationAwareOrderComparator.INSTANCE);
 
 		Integer previousOrder = null;
 		Object previousConfig = null;
+		// 检查多个SecurityConfigurer配置的@Order注解值是否相同，如果相同则报错。这就说明如果代码中通过继承自WebSecurityConfigurerAdapter配置了多个SecurityConfigurer，则必须为每个SecurityConfigurer设置@Order注解，并且注解值不能相同。
 		for (SecurityConfigurer<Filter, WebSecurity> config : webSecurityConfigurers) {
 			Integer order = AnnotationAwareOrderComparator.lookupOrder(config);
 			if (previousOrder != null && previousOrder.equals(order)) {
@@ -152,7 +161,9 @@ public class WebSecurityConfiguration implements ImportAware, BeanClassLoaderAwa
 			previousOrder = order;
 			previousConfig = config;
 		}
-		for (SecurityConfigurer<Filter, WebSecurity> webSecurityConfigurer : webSecurityConfigurers) {
+
+	// 将配置的每一个SecurityConfigurer应用到WebSecurity。这里我们顺便看下WebSecurity类的apply函数(WebSecurity继承自AbstractConfiguredSecurityBuilder，apply函数位于AbstractConfiguredSecurityBuilder中。)，因为后面的代码分析会用到。
+	for (SecurityConfigurer<Filter, WebSecurity> webSecurityConfigurer : webSecurityConfigurers) {
 			webSecurity.apply(webSecurityConfigurer);
 		}
 		this.webSecurityConfigurers = webSecurityConfigurers;
