@@ -66,12 +66,12 @@ public class SecurityContextLogoutHandler implements LogoutHandler {
 				session.invalidate();
 			}
 		}
-
+		// 清空
 		if (clearAuthentication) {
 			SecurityContext context = SecurityContextHolder.getContext();
 			context.setAuthentication(null);
 		}
-
+		// 上下文
 		SecurityContextHolder.clearContext();
 	}
 

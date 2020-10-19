@@ -70,6 +70,7 @@ public class DelegatingAuthenticationEntryPoint implements AuthenticationEntryPo
 		this.entryPoints = entryPoints;
 	}
 
+	// 着手
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 

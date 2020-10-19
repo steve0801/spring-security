@@ -92,6 +92,7 @@ public class UsernamePasswordAuthenticationFilter extends
 		// Allow subclasses to set the "details" property
 		setDetails(request, authRequest);
 
+		// 核心登录验证方法
 		return this.getAuthenticationManager().authenticate(authRequest);
 	}
 
@@ -137,6 +138,7 @@ public class UsernamePasswordAuthenticationFilter extends
 	 * @param authRequest the authentication request object that should have its details
 	 * set
 	 */
+	 // 封装登录用户信息
 	protected void setDetails(HttpServletRequest request,
 			UsernamePasswordAuthenticationToken authRequest) {
 		authRequest.setDetails(authenticationDetailsSource.buildDetails(request));

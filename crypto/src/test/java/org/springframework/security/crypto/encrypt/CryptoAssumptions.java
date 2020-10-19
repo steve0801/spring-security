@@ -37,6 +37,7 @@ public class CryptoAssumptions {
 	private static void assumeAes256(CipherAlgorithm cipherAlgorithm) {
 		boolean aes256Available = false;
 		try {
+			// TODO：没有实质的初始化
 			Cipher.getInstance(cipherAlgorithm.toString());
 			aes256Available = Cipher.getMaxAllowedKeyLength("AES") >= 256;
 		}

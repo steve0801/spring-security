@@ -161,6 +161,7 @@ public abstract class AbstractPreAuthenticatedProcessingFilter extends GenericFi
 	/**
 	 * Do the actual authentication for a pre-authenticated user.
 	 */
+    // 
 	private void doAuthenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		Authentication authResult;
 

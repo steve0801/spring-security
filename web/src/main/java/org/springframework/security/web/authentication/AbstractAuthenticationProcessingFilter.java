@@ -130,7 +130,9 @@ public abstract class AbstractAuthenticationProcessingFilter extends GenericFilt
 
 	private boolean allowSessionCreation = true;
 
+	// 验证成功之后的Handler
 	private AuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+	// 验证失败之后的Handler
 	private AuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler();
 
 	// ~ Constructors
@@ -215,18 +217,21 @@ public abstract class AbstractAuthenticationProcessingFilter extends GenericFilt
 				// authentication
 				return;
 			}
+			// 登录验证
 			sessionStrategy.onAuthentication(authResult, request, response);
 		}
 		catch (InternalAuthenticationServiceException failed) {
 			logger.error(
 					"An internal error occurred while trying to authenticate the user.",
 					failed);
+			// 验证失败
 			unsuccessfulAuthentication(request, response, failed);
 
 			return;
 		}
 		catch (AuthenticationException failed) {
 			// Authentication failed
+			// 验证失败
 			unsuccessfulAuthentication(request, response, failed);
 
 			return;
@@ -237,6 +242,7 @@ public abstract class AbstractAuthenticationProcessingFilter extends GenericFilt
 			chain.doFilter(request, response);
 		}
 
+		// 验证成功
 		successfulAuthentication(request, response, chain, authResult);
 	}
 

@@ -34,6 +34,7 @@ import org.springframework.util.Assert;
  * @author Luke Taylor
  * @since 3.1
  */
+ // 清理cookie
 public final class CookieClearingLogoutHandler implements LogoutHandler {
 	private final List<Function<HttpServletRequest, Cookie>> cookiesToClear;
 

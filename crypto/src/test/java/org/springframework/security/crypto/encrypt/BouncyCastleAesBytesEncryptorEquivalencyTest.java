@@ -83,6 +83,7 @@ public class BouncyCastleAesBytesEncryptorEquivalencyTest {
 		testCompatibility(bcEncryptor, jceEncryptor);
 	}
 
+	// 判断是否一致
 	private void testEquivalence(BytesEncryptor left, BytesEncryptor right) {
 		for (int size = 1; size < 2048; size++) {
 			testData = new byte[size];
@@ -100,6 +101,7 @@ public class BouncyCastleAesBytesEncryptorEquivalencyTest {
 
 	}
 
+	// 对比
 	private void testCompatibility(BytesEncryptor left, BytesEncryptor right) {
 		// tests that right can decrypt what left encrypted and vice versa
 		// and that the decypted data is the same as the original

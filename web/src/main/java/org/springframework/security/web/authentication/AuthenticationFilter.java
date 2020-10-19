@@ -62,11 +62,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @author Sergey Bespalov
  * @since 5.2.0
  */
+ // 一般需要重载
 public class AuthenticationFilter extends OncePerRequestFilter {
 
 	private RequestMatcher requestMatcher = AnyRequestMatcher.INSTANCE;
 	private AuthenticationConverter authenticationConverter;
+	// 验证成功之后的Handler
 	private AuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+	// 验证失败之后的Handler
 	private AuthenticationFailureHandler failureHandler = new AuthenticationEntryPointFailureHandler(
 			new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 	private AuthenticationManagerResolver<HttpServletRequest> authenticationManagerResolver;
@@ -141,18 +144,21 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
 		try {
 			Authentication authenticationResult = attemptAuthentication(request, response);
+			// 将请求转发给过滤器链下一个filter
 			if (authenticationResult == null) {
 				filterChain.doFilter(request, response);
 				return;
 			}
 
+			// 如果当前Session没有就为null
 			HttpSession session = request.getSession(false);
 			if (session != null) {
 				request.changeSessionId();
 			}
-
+			// 授权成功
 			successfulAuthentication(request, response, filterChain, authenticationResult);
 		} catch (AuthenticationException e) {
+			// 授权失败
 			unsuccessfulAuthentication(request, response, e);
 		}
 	}

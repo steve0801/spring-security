@@ -78,6 +78,7 @@ public class LogoutFilter extends GenericFilterBean {
 
 	public LogoutFilter(String logoutSuccessUrl, LogoutHandler... handlers) {
 		this.handler = new CompositeLogoutHandler(handlers);
+		// 判断合法url
 		Assert.isTrue(
 				!StringUtils.hasLength(logoutSuccessUrl)
 						|| UrlUtils.isValidRedirectUrl(logoutSuccessUrl),

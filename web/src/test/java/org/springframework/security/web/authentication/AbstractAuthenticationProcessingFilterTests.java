@@ -83,8 +83,10 @@ public class AbstractAuthenticationProcessingFilterTests {
 
 	@Before
 	public void setUp() {
+		// 验证成功之后的Handler
 		successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
 		successHandler.setDefaultTargetUrl("/logged_in.jsp");
+        // 验证失败之后的Handler
 		failureHandler = new SimpleUrlAuthenticationFailureHandler();
 		failureHandler.setDefaultFailureUrl("/failed.jsp");
 		SecurityContextHolder.clearContext();
