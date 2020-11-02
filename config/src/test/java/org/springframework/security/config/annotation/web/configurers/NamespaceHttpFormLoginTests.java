@@ -59,7 +59,7 @@ public class NamespaceHttpFormLoginTests {
 	@Autowired
 	MockMvc mvc;
 
-
+	// 
 	@Test
 	public void formLoginWhenDefaultConfigurationThenMatchesNamespace() throws Exception {
 		this.spring.register(FormLoginConfig.class, UserDetailsServiceConfig.class).autowire();
@@ -98,6 +98,7 @@ public class NamespaceHttpFormLoginTests {
 		}
 	}
 
+	// 
 	@Test
 	public void formLoginWithCustomEndpointsThenBehaviorMatchesNamespace() throws Exception {
 		this.spring.register(FormLoginCustomConfig.class, UserDetailsServiceConfig.class).autowire();
@@ -153,6 +154,7 @@ public class NamespaceHttpFormLoginTests {
 				.andExpect(redirectedUrl("/custom/targetUrl"));
 	}
 
+    // 
 	@EnableWebSecurity
 	static class FormLoginCustomRefsConfig extends WebSecurityConfigurerAdapter {
 		protected void configure(HttpSecurity http) throws Exception {

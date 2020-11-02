@@ -215,6 +215,7 @@ public final class FormLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
 	 * @param forwardUrl the target URL in case of failure
 	 * @return the {@link FormLoginConfigurer} for additional customization
 	 */
+    // 登录失败会转发到此
 	public FormLoginConfigurer<H> failureForwardUrl(String forwardUrl) {
 		failureHandler(new ForwardAuthenticationFailureHandler(forwardUrl));
 		return this;

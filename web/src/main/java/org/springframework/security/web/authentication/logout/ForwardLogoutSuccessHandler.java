@@ -41,12 +41,14 @@ public class ForwardLogoutSuccessHandler implements LogoutSuccessHandler {
 	 * Construct a new {@link ForwardLogoutSuccessHandler} with the given target URL.
 	 * @param targetUrl the target URL
 	 */
+	// 成功登出
 	public ForwardLogoutSuccessHandler(String targetUrl) {
 		Assert.isTrue(UrlUtils.isValidRedirectUrl(targetUrl),
 				() -> "'" + targetUrl + "' is not a valid target URL");
 		this.targetUrl = targetUrl;
 	}
 
+	// 成功登出
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {

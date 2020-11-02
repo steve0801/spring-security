@@ -65,6 +65,7 @@ public class DelegatingAuthenticationFailureHandler implements
 	/**
 	 * {@inheritDoc}
 	 */
+	 // 失败处理
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request,
 			HttpServletResponse response, AuthenticationException exception)

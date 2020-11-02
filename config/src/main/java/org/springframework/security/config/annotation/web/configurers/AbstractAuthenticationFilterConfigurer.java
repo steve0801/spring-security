@@ -127,6 +127,7 @@ public abstract class AbstractAuthenticationFilterConfigurer<B extends HttpSecur
 	 * authentication despite if a protected page had been previously visited
 	 * @return the {@link FormLoginConfigurer} for additional customization
 	 */
+    // 默认登陆成功后跳转到此
 	public final T defaultSuccessUrl(String defaultSuccessUrl, boolean alwaysUse) {
 		SavedRequestAwareAuthenticationSuccessHandler handler = new SavedRequestAwareAuthenticationSuccessHandler();
 		handler.setDefaultTargetUrl(defaultSuccessUrl);

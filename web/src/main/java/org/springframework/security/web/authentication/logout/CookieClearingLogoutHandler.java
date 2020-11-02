@@ -38,6 +38,7 @@ import org.springframework.util.Assert;
 public final class CookieClearingLogoutHandler implements LogoutHandler {
 	private final List<Function<HttpServletRequest, Cookie>> cookiesToClear;
 
+	// 输入：cookie列表
 	public CookieClearingLogoutHandler(String... cookiesToClear) {
 		Assert.notNull(cookiesToClear, "List of cookies cannot be null");
 		List<Function<HttpServletRequest, Cookie>> cookieList = new ArrayList<>();
@@ -58,6 +59,7 @@ public final class CookieClearingLogoutHandler implements LogoutHandler {
 	 * @since 5.2
 	 * @param cookiesToClear - One or more Cookie objects that must have maxAge of 0
 	 */
+	// 输入：cookie列表
 	public CookieClearingLogoutHandler(Cookie... cookiesToClear) {
 		Assert.notNull(cookiesToClear, "List of cookies cannot be null");
 		List<Function<HttpServletRequest, Cookie>> cookieList = new ArrayList<>();
